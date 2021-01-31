@@ -59,10 +59,14 @@ class TodosController extends ControllerBase{
 
     }
 
-    private function menu(){
+    
 
-        $this->loadView(viewName: 'TodosController/menu.html');
 
-    }
+	
+	public function menu(){
+		
+		$this->loadView('TodosController/menu.html');
+
+	}
 
 }

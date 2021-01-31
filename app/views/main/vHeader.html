@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-{% block header %}
+	{% block header %}
 	<base href="{{config["siteUrl"]}}">
 	<meta charset="UTF-8">
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 	<title>tds</title>
-{% endblock %}
-{% block css %}
+	{% endblock %}
+	{% block css %}
 	{{ css('https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css') }}
 	{{css('css/style.css') | raw}}
-{% endblock %}
+	{% endblock %}
 </head>
 <body>
 {% block head %}
-{% endblock %}
+<div class="ui container">
+	{% endblock %}
