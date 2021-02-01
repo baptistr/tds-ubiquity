@@ -4,9 +4,11 @@ use Ubiquity\attributes\items\router\Route;
 use Ubiquity\attributes\items\router\Get;
 use Ubiquity\attributes\items\router\Post;
 use Ubiquity\controllers\Router;
+use Ubiquity\utils\http\URequest;
 use Ubiquity\utils\http\USession;
 /**
  * Controller TodosController
+ * @property \Ajax\php\ubiquity\JsUtils $jquery
  */
 class TodosController extends ControllerBase{
 
@@ -18,6 +20,7 @@ class TodosController extends ControllerBase{
     public function initialize(){
         parent::initialize();
         $this->menu();
+        //$this->displayList("a","b");
     }
 
     #[Route(path: "/_default/", name : "home")]
@@ -33,6 +36,18 @@ class TodosController extends ControllerBase{
     #[Post(path: "todos/add", name: "todos.add")]
     public function addElement(){
 
+        $list=USession::get(self::LIST_SESSION_KEY);
+        if(URequest::filled('elements')){
+            $elements = explode("\n", URequest::post('elements'));
+            foreach ($elements as $elm){
+                $list[] = $elm;
+            }
+        }else{
+            $list[] = URequest::post('element');
+        }
+        $this->showMessage('Element ajouté', "Element correctement ajouté à la liste", 'info', 'check square');
+        USession::set(self::LIST_SESSION_KEY, $list);
+        $this->displayList($list);
     }
 
 
@@ -86,7 +101,12 @@ class TodosController extends ControllerBase{
 	}
 
     private function displayList($list){
-        $this->loadView('TodosController/displayList.html', ['list'=>$list]);
+        if(\count($list)>0){
+            $this->jquery->show('._saveList','','',false);
+        }
+        $this->jquery->change('#multiple', '$("._form").toggle();');
+        $this->jquery->click(".buttonEdit", '$(".item" + this.id).toggle();');
+        $this->jquery->renderView('TodosController/displayList.html', ['list'=>$list]);
     }
 
     private function showMessage(string $header,string $message,string $type = 'info',string $icon = 'info',array $buttons = []){
