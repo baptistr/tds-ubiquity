@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c519989e699c61799deda89b9f71023f",
+    "content-hash": "a754a5fae99b2702b735ffcb75b19d76",
     "packages": [
         {
             "name": "frameworks/jquery",
@@ -104,7 +104,7 @@
         },
         {
             "name": "phpmv/ubiquity",
-            "version": "dev-master",
+            "version": "2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpMv/ubiquity.git",
@@ -125,7 +125,6 @@
                 "phpmv/ubiquity-dev": "^0.1",
                 "phpmv/ubiquity-devtools": "dev-master"
             },
-            "default-branch": true,
             "type": "framework",
             "extra": {
                 "branch-alias": {
@@ -760,7 +759,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "phpmv/ubiquity": 20,
         "phpmv/ubiquity-attributes": 20
     },
     "prefer-stable": false,
