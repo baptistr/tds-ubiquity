@@ -9,92 +9,92 @@ use Ubiquity\attributes\items\OneToMany;
 
 #[Table(name: "organization")]
 class Organization{
-	
-	#[Id()]
-	#[Column(name: "id",dbType: "int(11)")]
-	#[Validator(type: "id",constraints: ["autoinc"=>true])]
-	private $id;
 
-	
-	#[Column(name: "name",dbType: "varchar(100)")]
-	#[Validator(type: "length",constraints: ["max"=>100,"notNull"=>true])]
-	private $name;
+    #[Id()]
+    #[Column(name: "id",dbType: "int(11)")]
+    #[Validator(type: "id",constraints: ["autoinc"=>true])]
+    private $id;
 
-	
-	#[Column(name: "domain",dbType: "varchar(255)")]
-	#[Validator(type: "length",constraints: ["max"=>255,"notNull"=>true])]
-	private $domain;
 
-	
-	#[Column(name: "aliases",nullable: true,dbType: "text")]
-	private $aliases;
+    #[Column(name: "name",dbType: "varchar(100)")]
+    #[Validator(type: "length",constraints: ["max"=>100,"notNull"=>true])]
+    private $name;
 
-	
-	#[OneToMany(mappedBy: "organization",className: "models\\Group")]
-	private $groups;
 
-	
-	#[OneToMany(mappedBy: "organization",className: "models\\User")]
-	private $users;
+    #[Column(name: "domain",dbType: "varchar(255)")]
+    #[Validator(type: "length",constraints: ["max"=>255,"notNull"=>true])]
+    private $domain;
 
-	public function getId(){
-		return $this->id;
-	}
 
-	public function setId($id){
-		$this->id=$id;
-	}
+    #[Column(name: "aliases",nullable: true,dbType: "text")]
+    private $aliases;
 
-	public function getName(){
-		return $this->name;
-	}
 
-	public function setName($name){
-		$this->name=$name;
-	}
+    #[OneToMany(mappedBy: "organization",className: "models\\Group")]
+    private $groups;
 
-	public function getDomain(){
-		return $this->domain;
-	}
 
-	public function setDomain($domain){
-		$this->domain=$domain;
-	}
+    #[OneToMany(mappedBy: "organization",className: "models\\User")]
+    private $users;
 
-	public function getAliases(){
-		return $this->aliases;
-	}
+    public function getId(){
+        return $this->id;
+    }
 
-	public function setAliases($aliases){
-		$this->aliases=$aliases;
-	}
+    public function setId($id){
+        $this->id=$id;
+    }
 
-	public function getGroups(){
-		return $this->groups;
-	}
+    public function getName(){
+        return $this->name;
+    }
 
-	public function setGroups($groups){
-		$this->groups=$groups;
-	}
+    public function setName($name){
+        $this->name=$name;
+    }
 
-	 public function addGroup($group){
-		$this->groups[]=$group;
-	}
+    public function getDomain(){
+        return $this->domain;
+    }
 
-	public function getUsers(){
-		return $this->users;
-	}
+    public function setDomain($domain){
+        $this->domain=$domain;
+    }
 
-	public function setUsers($users){
-		$this->users=$users;
-	}
+    public function getAliases(){
+        return $this->aliases;
+    }
 
-	 public function addUser($user){
-		$this->users[]=$user;
-	}
+    public function setAliases($aliases){
+        $this->aliases=$aliases;
+    }
 
-	 public function __toString(){
-		return ($this->domain??'no value').'';
-	}
+    public function getGroups(){
+        return $this->groups;
+    }
+
+    public function setGroups($groups){
+        $this->groups=$groups;
+    }
+
+    public function addGroup($group){
+        $this->groups[]=$group;
+    }
+
+    public function getUsers(){
+        return $this->users;
+    }
+
+    public function setUsers($users){
+        $this->users=$users;
+    }
+
+    public function addUser($user){
+        $this->users[]=$user;
+    }
+
+    public function __toString(){
+        return ($this->domain??'no value').'';
+    }
 
 }

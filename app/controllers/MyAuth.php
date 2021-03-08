@@ -10,10 +10,12 @@ use Ubiquity\utils\http\USession;
 use Ubiquity\utils\http\URequest;
 use Ubiquity\controllers\auth\AuthFiles;
 use Ubiquity\attributes\items\router\Route;
+use Ubiquity\controllers\auth\AuthController;
 use models\User;
 
 #[Route(path: "/login",inherited: true,automated: true)]
-class MyAuth extends \Ubiquity\controllers\auth\AuthController{
+class MyAuth extends \Ubiquity\controllers\auth\AuthController
+{
 
     public function _displayInfoAsString() {
         return true;
@@ -89,8 +91,12 @@ class MyAuth extends \Ubiquity\controllers\auth\AuthController{
         return;
     }
 
-    public function _isValidUser($action = null)
+    public function _isValidUser($action = null) {
+        return USession::exists($this->_getUserSessionKey());
+    }
+
+    public function _getBaseRoute(): string
     {
-        // TODO: Implement _isValidUser() method.
+        return '/login';
     }
 }
