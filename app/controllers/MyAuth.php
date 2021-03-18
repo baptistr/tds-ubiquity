@@ -1,7 +1,6 @@
 <?php
 namespace controllers;
 use Ubiquity\attributes\items\router\Get;
-use Ubiquity\controllers\Router;
 use Ubiquity\controllers\Startup;
 use Ubiquity\orm\DAO;
 use Ubiquity\utils\flash\FlashMessage;
@@ -21,12 +20,12 @@ class MyAuth extends \Ubiquity\controllers\auth\AuthController{
         $urlParts=$this->getOriginalURL();
         USession::set($this->_getUserSessionKey(), $connected);
         if(isset($urlParts)){
-            $url=implode("/",$urlParts);
-            if(!str_contains($url, 'direct')) {
-                //return $this->_forward(implode("/", $urlParts));
-            }
+            $this->_forward(implode("/",$urlParts));
+        }else{
+            //TODO
+            //Forwarding to the default controller/action
+            UResponse::header('location', '/');
         }
-        UResponse::header('location','/');
     }
 
     #[Get(name:'login.direct')]
@@ -49,8 +48,8 @@ class MyAuth extends \Ubiquity\controllers\auth\AuthController{
             if($email!=null) {
                 $password = URequest::post($this->_getPasswordInputName());
                 $user = DAO::getOne(User::class, 'email= ?', false, [$email]);
-                if(isset($user)) {
-                    USession::set('idOrga', $user->getOrganization());
+                if(isset($user) && $user->getPassword() == $password) {
+                    USession::set('idUser', $user->getId());
                     return $user;
                 }
             }
@@ -68,7 +67,7 @@ class MyAuth extends \Ubiquity\controllers\auth\AuthController{
     }
 
     public function _getBaseRoute() {
-        return '/login';
+        return 'MyAuth';
     }
 
     protected function getFiles(): AuthFiles{
@@ -90,23 +89,4 @@ class MyAuth extends \Ubiquity\controllers\auth\AuthController{
             $this->loadView('@activeTheme/main/vHeader.html');
         }
     }
-
-    public function _getBodySelector() {
-        return '#page-container';
-    }
-
-    protected function noAccessMessage(FlashMessage $fMessage) {
-        $fMessage->setTitle('Accès interdit !');
-        $u=USession::get('urlParts');
-        $url=implode('/',$u);
-        $url=($url=='_default')?'/':$url;
-        $fMessage->setContent("Vous n'êtes pas autorisé à accéder à cette page (".$url.").");
-    }
-
-    protected function terminateMessage(FlashMessage $fMessage) {
-        $fMessage->setTitle('Fermeture');
-        $fMessage->setContent("Vous avez été correctement déconnecté de l'application.");
-    }
-
-
 }
