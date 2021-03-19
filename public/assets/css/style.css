@@ -15,3 +15,12 @@ body{
 	background-color: #D39D38!important;
 	color: white!important;
 }
+span{
+	color: green;
+}
+ul{
+	list-style: none;
+}
+img{
+	border: 1px solid black;
+}

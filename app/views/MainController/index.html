@@ -1,1 +1,26 @@
 <!--View associated to index action of MainController controller -->
+<div class="ui grid">
+    <fieldset class="ten wide column">
+        <legend>Store</legend>
+        <button class="ui black button">Mes commandes ({{ nbCommand }})</button>
+        <button class="ui black button">Parcourir le store</button>
+    </fieldset>
+    <fieldset class="five wide column">
+        <legend>Paniers</legend>
+        <button class="ui green button">Nouveau ...</button>
+        <button class="ui black button">Mes paniers (?)</button>
+    </fieldset>
+    <fieldset class="sixteen wide column">
+        <legend>Promotions en cours</legend>
+        {% for product in productPromo %}
+        <ul>
+            <li><img width="75" src="https://file1.science-et-vie.com/var/scienceetvie/storage/images/1/0/6/106515/les-premiers-oeufs-sexes-arrivent-magasin.jpg?alias=exact1024x768_l"></li>
+            <li>{{ product.name }}</li>
+            <li>{{ product.price }} <span>({{product.promotion}})</span></li>
+        </ul>
+        {% endfor %}
+    </fieldset>
+    <fieldset class="sixteen wide column">
+        <legend>Consultés récemment</legend>
+    </fieldset>
+</div>
