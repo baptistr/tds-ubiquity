@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Store</title>
+</head>
+<body>
+    <div class="ui grid">
+        <div class="block-section">
+            <ul>
+            {% for section in listSection %}
+                <li>
+                    <a href="">{{ section.name }} ({{ section.products|length }})</a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

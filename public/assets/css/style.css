@@ -24,3 +24,12 @@ ul{
 img{
 	border: 1px solid black;
 }
+.block-section{
+	background-color: #1f1f1f;
+}
+.block-section li{
+	color: #f8f9fa;
+}
+nav{
+	margin-bottom: 80px;
+}

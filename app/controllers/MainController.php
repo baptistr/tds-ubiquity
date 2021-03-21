@@ -4,6 +4,7 @@ namespace controllers;
  use Ajax\php\ubiquity\JsUtils;
  use models\Basket;
  use models\Order;
+ use models\Section;
  use Ubiquity\attributes\items\router\Route;
  use Ubiquity\controllers\auth\AuthController;
  use Ubiquity\controllers\auth\WithAuthTrait;
@@ -37,8 +38,8 @@ class MainController extends ControllerBase{
 
     #[Route('store', name:'store')]
     public function store(){
-        $store = DAO::getAll(Product::class, false, false);
-        $this->loadDefaultView(['store'=>$store]);
+        $listSection = DAO::getAll(Section::class, false, ['products']);
+        $this->loadDefaultView(['listSection'=>$listSection]);
     }
 
     #[Route('newBasket', name:'newBasket')]
