@@ -2,6 +2,7 @@
 namespace controllers;
 
  use Ajax\php\ubiquity\JsUtils;
+ use models\Basket;
  use models\Order;
  use Ubiquity\attributes\items\router\Route;
  use Ubiquity\controllers\auth\AuthController;
@@ -24,7 +25,32 @@ class MainController extends ControllerBase{
         //$this->jquery->renderView("MainController/index.html"); pourquoi ça marche sans ??
         $productPromo = DAO::getAll(Product::class, 'promotion< ?', false, [0]);
         $nbCommand = DAO::count(Order::class, 'idUser=?', [USession::get("idUser")]);
-        $this->loadDefaultView(['productPromo'=>$productPromo, 'nbCommand'=>$nbCommand]);
+        $nbBasket = DAO::count(Basket::class, 'idUser=?', [USession::get("idUser")]);
+        $this->loadDefaultView(['productPromo'=>$productPromo, 'nbCommand'=>$nbCommand, 'nbBasket'=>$nbBasket]);
+    }
+
+    #[Route('order', name:'order')]
+    public function order(){
+        $listOrder = DAO::getAll(Order::class, 'idUser=?', false, [USession::get("idUser")]);
+        $this->loadDefaultView(['listOrder'=>$listOrder]);
+    }
+
+    #[Route('store', name:'store')]
+    public function store(){
+        $store = DAO::getAll(Product::class, false, false);
+        $this->loadDefaultView(['store'=>$store]);
+    }
+
+    #[Route('newBasket', name:'newBasket')]
+    public function newBasket(){
+        $newbasket = DAO::getAll(Order::class, 'idUser= ?', false, [USession::get("idUser")]);
+        $this->loadDefaultView(['newbasket'=>$newbasket]);
+    }
+
+    #[Route('Basket', name:'basket')]
+    public function basket(){
+        $basket = DAO::getAll(Basket::class, 'idUser= ?', false, [USession::get("idUser")]);
+        $this->loadDefaultView(['basket'=>$basket]);
     }
 
     protected function getAuthController(): AuthController

@@ -2,13 +2,13 @@
 <div class="ui grid">
     <fieldset class="ten wide column">
         <legend>Store</legend>
-        <button class="ui black button">Mes commandes ({{ nbCommand }})</button>
-        <button class="ui black button">Parcourir le store</button>
+        <a href="{{ path('order') }}" class="ui black button">Mes commandes ({{ nbCommand }})</a>
+        <a href="{{ path('store') }}" class="ui black button">Parcourir le store</a>
     </fieldset>
     <fieldset class="five wide column">
         <legend>Paniers</legend>
-        <button class="ui green button">Nouveau ...</button>
-        <button class="ui black button">Mes paniers (?)</button>
+        <a href="{{ path('newBasket') }}" class="ui green button">Nouveau ...</a>
+        <a href="{{ path('basket') }}" class="ui black button">Mes paniers ({{ nbBasket }})</a>
     </fieldset>
     <fieldset class="sixteen wide column">
         <legend>Promotions en cours</legend>
