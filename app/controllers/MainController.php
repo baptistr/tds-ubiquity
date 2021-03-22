@@ -27,7 +27,8 @@ class MainController extends ControllerBase{
         $productPromo = DAO::getAll(Product::class, 'promotion< ?', false, [0]);
         $nbCommand = DAO::count(Order::class, 'idUser=?', [USession::get("idUser")]);
         $nbBasket = DAO::count(Basket::class, 'idUser=?', [USession::get("idUser")]);
-        $this->loadDefaultView(['productPromo'=>$productPromo, 'nbCommand'=>$nbCommand, 'nbBasket'=>$nbBasket]);
+        //$productRecent = USession::get('recentlyViewedProducts');
+        $this->loadDefaultView(['productPromo'=>$productPromo, 'nbCommand'=>$nbCommand, 'nbBasket'=>$nbBasket, 'productRecent'=>$productRecent]);
     }
 
     #[Route('order', name:'order')]
@@ -39,7 +40,8 @@ class MainController extends ControllerBase{
     #[Route('store', name:'store')]
     public function store(){
         $listSection = DAO::getAll(Section::class, false, ['products']);
-        $this->loadDefaultView(['listSection'=>$listSection]);
+        $productPromo = DAO::getAll(Product::class, 'promotion< ?', false, [0]);
+        $this->loadDefaultView(['listSection'=>$listSection, 'productPromo'=>$productPromo]);
     }
 
     #[Route('newBasket', name:'newBasket')]
@@ -52,6 +54,19 @@ class MainController extends ControllerBase{
     public function basket(){
         $basket = DAO::getAll(Basket::class, 'idUser= ?', false, [USession::get("idUser")]);
         $this->loadDefaultView(['basket'=>$basket]);
+    }
+
+    #[Route ('section/{id}', name:'section')]
+    public function section($id){
+        $listProductBySection = DAO::getAll(Product::class, 'idSection= '.$id, [USession::get("idSection")]);
+        $listSection = DAO::getAll(Section::class, false, ['products']);
+        $actualSection = DAO::getById(Section::class, $id, false);
+        $this->loadDefaultView(['listSection'=>$listSection, 'listProductBySection'=>$listProductBySection, 'actualSection'=>$actualSection]);
+    }
+
+    #[Route ('section/{idS}/product/{idP}', name:'product')]
+    public function product($idS, $idP){
+
     }
 
     protected function getAuthController(): AuthController

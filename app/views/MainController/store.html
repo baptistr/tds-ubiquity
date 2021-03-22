@@ -6,14 +6,29 @@
 </head>
 <body>
     <div class="ui grid">
-        <div class="block-section">
+        <div class="block-section four wide column">
             <ul>
             {% for section in listSection %}
                 <li>
-                    <a href="">{{ section.name }} ({{ section.products|length }})</a>
+                    <a href="{{path('section', [section.id])}} ">{{ section.name }} ({{ section.products|length }})</a>
                 </li>
             {% endfor %}
             </ul>
+        </div>
+        <div class="eleven wide column">
+            <fieldset>
+                <legend>Promotions en cours</legend>
+                {% for product in productPromo %}
+                <ul>
+                    <li><img width="75" src="https://file1.science-et-vie.com/var/scienceetvie/storage/images/1/0/6/106515/les-premiers-oeufs-sexes-arrivent-magasin.jpg?alias=exact1024x768_l"></li>
+                    <li>{{ product.name }}</li>
+                    <li>{{ product.price }} <span>({{product.promotion}})</span></li>
+                </ul>
+                {% endfor %}
+            </fieldset>
+            <fieldset>
+                <legend>Consultés récemment</legend>
+            </fieldset>
         </div>
     </div>
 </body>

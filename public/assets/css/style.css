@@ -20,6 +20,7 @@ span{
 }
 ul{
 	list-style: none;
+	padding: 0;
 }
 img{
 	border: 1px solid black;
@@ -32,4 +33,21 @@ img{
 }
 nav{
 	margin-bottom: 80px;
+}
+fieldset{
+	display: flex;
+}
+.produit{
+	border:1px solid grey;
+}
+.float-r{
+	float: right;
+}
+.icon{
+	cursor: pointer;
+}
+.spec-basket{
+	position: absolute;
+	bottom: 3%;
+	right: 5%;
 }

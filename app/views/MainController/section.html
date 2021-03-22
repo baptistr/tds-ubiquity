@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Section</title>
+</head>
+<body>
+    <div class="ui grid">
+        <div class="block-section four wide column">
+            <ul>
+                {% for section in listSection %}
+                <li>
+                    <a href="{{path('section', [section.id])}} ">{{ section.name }} ({{ section.products|length }})</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="twelve wide column">
+            <a href="{{ path('home') }}" class="ui black button float-r">Retour (board)</a>
+            <h1>{{ actualSection.name }}</h1>
+            <fieldset class="ui grid">
+                <legend>Produits</legend>
+                {% for sec in listProductBySection %}
+                <div class="produit four wide column">
+                    <ul class="listProduct">
+                        <li><img width="175" src="https://file1.science-et-vie.com/var/scienceetvie/storage/images/1/0/6/106515/les-premiers-oeufs-sexes-arrivent-magasin.jpg?alias=exact1024x768_l"><!--<img src="{{sec.image}}">--></li>
+                        <li><a><i class="shopping cart icon float-r button">+</i></a></li>
+                        <li>{{sec.price}}</li>
+                        <li>{{sec.name}}</li>
+                        <li><a><i class="shopping basket icon float-r spec-basket"></i></a></li>
+                    </ul>
+                </div>
+                {% endfor %}
+            </fieldset>
+        </div>
+    </div>
+</body>
+</html>
