@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Order</title>
-</head>
-<body>
     <h1>Date de tes dernières commandes</h1>
     <ul>
     {% for order in listOrder %}
         <li>{{ order.dateCreation }}</li>
     {% endfor %}
     </ul>
-</body>
-</html>

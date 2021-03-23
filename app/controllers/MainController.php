@@ -64,9 +64,12 @@ class MainController extends ControllerBase{
         $this->loadDefaultView(['listSection'=>$listSection, 'listProductBySection'=>$listProductBySection, 'actualSection'=>$actualSection]);
     }
 
-    #[Route ('section/{idS}/product/{idP}', name:'product')]
+    #[Route ('product/{idS}/{idP}', name:'productUnit')]
     public function product($idS, $idP){
-
+        $actualSection = DAO::getById(Section::class, $idS, false);
+        $actualProduct = DAO::getById(Product::class,$idP,['sections']);
+        $listSection = DAO::getAll(Section::class, false, ['products']);
+        $this->loadDefaultView(['listSection'=>$listSection, 'actualSection'=>$actualSection, 'actualProduct'=>$actualProduct]);
     }
 
     protected function getAuthController(): AuthController
