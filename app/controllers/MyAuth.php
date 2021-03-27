@@ -22,8 +22,7 @@ class MyAuth extends \Ubiquity\controllers\auth\AuthController{
         if(isset($urlParts)){
             $this->_forward(implode("/",$urlParts));
         }else{
-            //TODO
-            //Forwarding to the default controller/action
+            USession::set('productsInSession', []);
             UResponse::header('location', '/');
         }
     }

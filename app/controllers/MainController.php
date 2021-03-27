@@ -23,12 +23,11 @@ class MainController extends ControllerBase{
 
     #[Route('_default',name: 'home')]
     public function index(){
-        //$this->jquery->renderView("MainController/index.html"); pourquoi ça marche sans ??
         $productPromo = DAO::getAll(Product::class, 'promotion< ?', false, [0]);
         $nbCommand = DAO::count(Order::class, 'idUser=?', [USession::get("idUser")]);
         $nbBasket = DAO::count(Basket::class, 'idUser=?', [USession::get("idUser")]);
-        //$productRecent = USession::get('recentlyViewedProducts');
-        $this->loadDefaultView(['productPromo'=>$productPromo, 'nbCommand'=>$nbCommand, 'nbBasket'=>$nbBasket, 'productRecent'=>$productRecent]);
+        $productsInSession = USession::get('productsInSession');
+        $this->loadDefaultView(['productPromo'=>$productPromo, 'nbCommand'=>$nbCommand, 'nbBasket'=>$nbBasket, 'productsInSession'=>$productsInSession]);
     }
 
     #[Route('order', name:'order')]
@@ -41,7 +40,8 @@ class MainController extends ControllerBase{
     public function store(){
         $listSection = DAO::getAll(Section::class, false, ['products']);
         $productPromo = DAO::getAll(Product::class, 'promotion< ?', false, [0]);
-        $this->loadDefaultView(['listSection'=>$listSection, 'productPromo'=>$productPromo]);
+        $productsInSession = USession::get('productsInSession');
+        $this->loadDefaultView(['listSection'=>$listSection, 'productPromo'=>$productPromo, 'productsInSession'=>$productsInSession]);
     }
 
     #[Route('newBasket', name:'newBasket')]
@@ -69,6 +69,9 @@ class MainController extends ControllerBase{
         $actualSection = DAO::getById(Section::class, $idS, false);
         $actualProduct = DAO::getById(Product::class,$idP,['sections']);
         $listSection = DAO::getAll(Section::class, false, ['products']);
+        $productsInSession = USession::get("productsInSession");
+        \array_unshift($productsInSession, $actualProduct);
+        USession::set('productsInSession', \array_slice($productsInSession,0,5));
         $this->loadDefaultView(['listSection'=>$listSection, 'actualSection'=>$actualSection, 'actualProduct'=>$actualProduct]);
     }
 

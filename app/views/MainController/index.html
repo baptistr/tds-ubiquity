@@ -10,7 +10,7 @@
         <a href="{{ path('newBasket') }}" class="ui green button">Nouveau ...</a>
         <a href="{{ path('basket') }}" class="ui black button">Mes paniers ({{ nbBasket }})</a>
     </fieldset>
-    <fieldset class="sixteen wide column">
+    <fieldset class="sixteen wide column list-item-flex">
         <legend>Promotions en cours</legend>
         {% for product in productPromo %}
         <ul>
@@ -20,14 +20,14 @@
         </ul>
         {% endfor %}
     </fieldset>
-    <fieldset class="sixteen wide column">
+    <fieldset class="sixteen wide column list-item-flex">
         <legend>Consultés récemment</legend>
-        <!--{% for product in productRecent %}
+        {% for prod in productsInSession %}
         <ul>
             <li><img width="75" src="https://file1.science-et-vie.com/var/scienceetvie/storage/images/1/0/6/106515/les-premiers-oeufs-sexes-arrivent-magasin.jpg?alias=exact1024x768_l"></li>
-            <li>{{ product.name }}</li>
-            <li>{{ product.price }} <span>({{product.promotion}})</span></li>
+            <li>{{ prod.name }}</li>
+            <li>{{ prod.price }} <span>({{prod.promotion}})</span></li>
         </ul>
-        {% endfor %}-->
+        {% endfor %}
     </fieldset>
 </div>

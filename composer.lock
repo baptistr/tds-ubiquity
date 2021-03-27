@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c519989e699c61799deda89b9f71023f",
+    "content-hash": "b88fd38df42aa17df66300f8e61939f0",
     "packages": [
         {
             "name": "frameworks/jquery",
@@ -38,16 +38,16 @@
         },
         {
             "name": "phpmv/php-mv-ui",
-            "version": "2.3.20",
+            "version": "2.3.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpMv/phpMv-UI.git",
-                "reference": "47de24027643865b4b567fe4ed67429748d63713"
+                "reference": "d4bd11beeab50e45a591e613911ea317ae841db4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpMv/phpMv-UI/zipball/47de24027643865b4b567fe4ed67429748d63713",
-                "reference": "47de24027643865b4b567fe4ed67429748d63713",
+                "url": "https://api.github.com/repos/phpMv/phpMv-UI/zipball/d4bd11beeab50e45a591e613911ea317ae841db4",
+                "reference": "d4bd11beeab50e45a591e613911ea317ae841db4",
                 "shasum": ""
             },
             "require": {
@@ -98,13 +98,13 @@
             ],
             "support": {
                 "issues": "https://github.com/phpMv/phpMv-UI/issues",
-                "source": "https://github.com/phpMv/phpMv-UI/tree/2.3.20"
+                "source": "https://github.com/phpMv/phpMv-UI/tree/2.3.21"
             },
-            "time": "2021-03-06T01:42:43+00:00"
+            "time": "2021-03-14T00:54:36+00:00"
         },
         {
             "name": "phpmv/ubiquity",
-            "version": "dev-master",
+            "version": "2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpMv/ubiquity.git",
@@ -125,7 +125,6 @@
                 "phpmv/ubiquity-dev": "^0.1",
                 "phpmv/ubiquity-devtools": "dev-master"
             },
-            "default-branch": true,
             "type": "framework",
             "extra": {
                 "branch-alias": {
@@ -760,13 +759,12 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "phpmv/ubiquity": 20,
         "phpmv/ubiquity-attributes": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.4"
+        "php": ">=8.0"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"
