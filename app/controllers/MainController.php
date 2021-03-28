@@ -3,6 +3,7 @@ namespace controllers;
 
  use Ajax\php\ubiquity\JsUtils;
  use models\Basket;
+ use models\Basketdetail;
  use models\Order;
  use models\Section;
  use Ubiquity\attributes\items\router\Route;
@@ -50,10 +51,20 @@ class MainController extends ControllerBase{
         $this->loadDefaultView(['newbasket'=>$newbasket]);
     }
 
-    #[Route('Basket', name:'basket')]
+    #[Route('basket', name:'basket')]
     public function basket(){
         $basket = DAO::getAll(Basket::class, 'idUser= ?', false, [USession::get("idUser")]);
         $this->loadDefaultView(['basket'=>$basket]);
+    }
+
+    #[Route(path:"basket/add/{idP}", name:"addProduct")]
+    public function addProduct($idP){
+        $basket = DAO::getOne(Basket::class, 'idUser=?', false, [USession::get("idUser")]);
+        $basketInfo = new Basketdetail();
+        $basketInfo->setBasket($basket);
+        $basketInfo->setIdProduct($idP);
+        $basketInfo->setQuantity(1);
+        DAO::save($basketInfo);
     }
 
     #[Route ('section/{id}', name:'section')]

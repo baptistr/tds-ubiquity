@@ -26,9 +26,6 @@ img{
 	border: 1px solid black;
 	margin: 5px;
 }
-.block-section{
-	background-color: #1f1f1f;
-}
 .block-section li{
 	color: #f8f9fa;
 }
@@ -60,4 +57,7 @@ fieldset{
 .list-item-flex{
 	display: flex!important;
 	justify-content: space-evenly!important;
+}
+.img-product{
+	width: 100%;
 }
