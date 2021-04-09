@@ -1,0 +1,20 @@
+<div class="ui container">
+    <fieldset>
+        <legend>Nouveau panier</legend>
+        <form class="ui form" action="{{ path('newBasket') }}" method="post">
+            <div class="field">
+                <label>Nom :</label>
+                <input type="text" name="name" placeholder="Nom du panier">
+            </div>
+            <button class="ui button" type="submit">Confirmer</button>
+        </form>
+    </fieldset>
+    <fieldset>
+        <legend>Liste de mes paniers</legend>
+        <ul>
+            {% for basket in listBasket %}
+            <li>{{ basket.name }}</li>
+            {% endfor %}
+        </ul>
+    </fieldset>
+</div>

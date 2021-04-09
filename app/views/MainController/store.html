@@ -1,13 +1,12 @@
  <div class="ui grid">
-        <div class="block-section four wide column">
-            <ul>
-            {% for section in listSection %}
-                <li>
-                    <a href="{{path('section', [section.id])}} ">{{ section.name }} ({{ section.products|length }})</a>
-                </li>
-            {% endfor %}
-            </ul>
-        </div>
+     <div class="ui vertical menu four wide column">
+         {% for section in listSection %}
+         <a class="item" href="{{path('section', [section.id])}} ">
+             {{ section.name }}
+             <div class="ui label teal left pointing label">({{ section.products|length }})</div>
+         </a>
+         {% endfor %}
+     </div>
         <div class="eleven wide column">
             <fieldset class="list-item-flex">
                 <legend>Promotions en cours</legend>

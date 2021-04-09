@@ -1,0 +1,10 @@
+<div class="ui container">
+    <fieldset>
+        <legend>Liste de mes paniers</legend>
+        <ul>
+            {% for basket in basket %}
+            <li>{{ basket.name }}</li>
+            {% endfor %}
+        </ul>
+    </fieldset>
+</div>

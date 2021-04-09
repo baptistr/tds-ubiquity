@@ -21,7 +21,8 @@
                     <h2>{{actualProduct.name}}</h2>
                     {{actualProduct.price}}
                     <span>({{actualProduct.promotion}})</span>
-                    <i class="large shopping cart icon float-r button">+</i>
+
+                    <a href='{{ path('addProcuct', [actualProduct.id]) }}'><i class="large shopping cart icon float-r button"></i></a>
                     <i class="big shopping basket icon float-r "></i>
                 </div>
             </div>

@@ -1,5 +1,7 @@
 <?php
 namespace controllers;
+use classes\basketFunction;
+use models\Basket;
 use Ubiquity\attributes\items\router\Get;
 use Ubiquity\controllers\Startup;
 use Ubiquity\orm\DAO;
@@ -41,21 +43,38 @@ class MyAuth extends \Ubiquity\controllers\auth\AuthController{
         $this->finalizeAuth();
     }
 
-    protected function _connect() {
-        if(URequest::isPost()){
-            $email=URequest::post($this->_getLoginInputName());
-            if($email!=null) {
+    protected function _connect()
+    {
+        if (URequest::isPost()) {
+            $email = URequest::post($this->_getLoginInputName());
+            if ($email != null) {
                 $password = URequest::post($this->_getPasswordInputName());
                 $user = DAO::getOne(User::class, 'email= ?', false, [$email]);
-                if(isset($user) && $user->getPassword() == $password) {
+                if (isset($user) && $user->getPassword() == $password) {
                     USession::set('idUser', $user->getId());
-                    return $user;
+                    $basket = DAO::getOne(Basket::class, 'name = ?', false, ['_default']);
+                    if (!$basket) {
+                        $basket = new Basket();
+                        $basket->setName('_default');
+                        $basket->setUser($user);
+                        if (DAO::save($basket)) {
+                            $LocalBasket = new BasketFunction(DAO::getOne(Basket::class, 'name = ?', false, ['_default']));
+                            USession::set('defaultBasket', $LocalBasket);
+                            return $user;
+                        } else {
+                            echo "BDD erreur user";
+                        }
+                    } else {
+                        $LocalBasket = new BasketFunction($basket);
+                        USession::set('defaultBasket', $LocalBasket);
+                        return $user;
+                    }
                 }
             }
         }
-
         return;
     }
+
 
     /**
      * {@inheritDoc}
