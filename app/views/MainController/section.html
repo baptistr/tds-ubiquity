@@ -16,7 +16,7 @@
                 <div class="produit four wide column">
                     <ul class="listProduct">
                         <li><a href="{{ path('productUnit', [actualSection.id, sec.id]) }}"><img width="175" src="https://file1.science-et-vie.com/var/scienceetvie/storage/images/1/0/6/106515/les-premiers-oeufs-sexes-arrivent-magasin.jpg?alias=exact1024x768_l"></a><!--<img src="{{sec.image}}">--></li>
-                        <li><a href="{{ path('addProduct', [sec.id]) }}"><i class="shopping cart icon float-r button">+</i></a></li>
+                        <li><a href='{{ path('addProcuct', [actualProduct.id]) }}'><i class="large shopping cart icon float-r button">+</i></a></li>
                         <li>{{sec.price}}</li>
                         <li>{{sec.name}}</li>
                         <li><a><i class="shopping basket icon float-r spec-basket"></i></a></li>

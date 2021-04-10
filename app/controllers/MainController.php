@@ -3,6 +3,7 @@ namespace controllers;
 
  use Ajax\php\ubiquity\JsUtils;
  use models\Basket;
+ use models\Basketdetail;
  use models\Order;
  use models\Section;
  use models\User;
@@ -50,16 +51,19 @@ class MainController extends ControllerBase{
 
     #[Route('newBasket', name:'newBasket')]
     public function newBasket(){
-        $listBasket = DAO::getAll(Order::class, 'idUser= ?', false, [USession::get("idUser")]);
-        $reponse = URequest::post("name");
-        if($reponse != null){
-            $user = DAO::getById(User::class, USession::get("idUser"), false);
+        $basket = DAO::getAll(Basket::class, 'idUser= ?', false, [USession::get("idUser")]);
+        $nomDuPanier = URequest::post("name");
+        if(!empty($nomDuPanier)){
+            $user = $this->getAuthController()->_getActiveUser();
             $newBasket = new Basket();
             $newBasket->setUser($user);
-            $newBasket->setName($reponse);
+            $newBasket->setName($nomDuPanier);
+            /*$newBasket->setId(1001);*/ //pas besoin car se créer automatiquement
+            /*$newBasket->setDateCreation(date("Y-m-d H:i:s"));*/ //pas besoin car il prend la date par default de la db
+            DAO::save($newBasket);
             UResponse::header('location', '/'.Router::path('basket'));
         }
-        $this->loadDefaultView(['listBasket'=>$listBasket]);
+        $this->loadDefaultView(['basket'=>$basket]);
     }
 
     #[Route('basket', name:'basket')]

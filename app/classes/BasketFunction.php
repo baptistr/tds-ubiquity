@@ -22,7 +22,6 @@ class BasketFunction{
         $this->basket = $basket;
     }
 
-
     public function addProduct($article, $quantity)
     {
         if(DAO::getOne(Basketdetail::class,'idProduct = ?',false,[$article->getId()])){
