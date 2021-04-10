@@ -32,13 +32,13 @@ class MainController extends ControllerBase{
         $nbCommand = DAO::count(Order::class, 'idUser=?', [USession::get("idUser")]);
         $nbBasket = DAO::count(Basket::class, 'idUser=?', [USession::get("idUser")]);
         $productsInSession = USession::get('productsInSession');
-        $this->loadDefaultView(['productPromo'=>$productPromo, 'nbCommand'=>$nbCommand, 'nbBasket'=>$nbBasket, 'productsInSession'=>$productsInSession]);
+        $this->loadView('MainController/index.html',['productPromo'=>$productPromo, 'nbCommand'=>$nbCommand, 'nbBasket'=>$nbBasket, 'productsInSession'=>$productsInSession]);
     }
 
     #[Route('order', name:'order')]
     public function order(){
         $listOrder = DAO::getAll(Order::class, 'idUser=?', false, [USession::get("idUser")]);
-        $this->loadDefaultView(['listOrder'=>$listOrder]);
+        $this->loadView('MainController/order.html',['listOrder'=>$listOrder]);
     }
 
     #[Route('store', name:'store')]
@@ -46,7 +46,7 @@ class MainController extends ControllerBase{
         $listSection = DAO::getAll(Section::class, false, ['products']);
         $productPromo = DAO::getAll(Product::class, 'promotion< ?', false, [0]);
         $productsInSession = USession::get('productsInSession');
-        $this->loadDefaultView(['listSection'=>$listSection, 'productPromo'=>$productPromo, 'productsInSession'=>$productsInSession]);
+        $this->loadView('MainController/store.html',['listSection'=>$listSection, 'productPromo'=>$productPromo, 'productsInSession'=>$productsInSession]);
     }
 
     #[Route('newBasket', name:'newBasket')]
@@ -63,21 +63,56 @@ class MainController extends ControllerBase{
             DAO::save($newBasket);
             UResponse::header('location', '/'.Router::path('basket'));
         }
-        $this->loadDefaultView(['basket'=>$basket]);
+        $this->loadView('MainController/newBasket.html',['basket'=>$basket]);
     }
 
     #[Route('basket', name:'basket')]
     public function basket(){
         $basket = DAO::getAll(Basket::class, 'idUser= ?', false, [USession::get("idUser")]);
-        $this->loadDefaultView(['basket'=>$basket]);
+        $this->loadView('MainController/basket.html',['basket'=>$basket]);
     }
 
-    #[Route(path:"basket/add/{idP}", name:"addProduct")]
+    #[Route("basket/add/{idP}", name:"addProduct")]
     public function addProduct($idP){
         $product = DAO::getById(Product::class, $idP, false);
         $basket = USession::get('defaultBasket');
-        $basket->addProduct($product, 1);
-        UResponse::header('location', '/'.Router::path('store'));
+        $idDuPanier = $basket->getId();
+        $basketContent=DAO::getOne(Basketdetail::class,'idProduct= ? AND idBasket= ?', false, [$idP,$idDuPanier]);
+        if($basketContent!==null){//Le produit est présent dans le panier
+            $quantity = $basketContent->getQuantity();
+            $basketContent->setQuantity($quantity+1);
+            DAO::save($basketContent);
+        }
+        else{
+            $newBasketContent = new Basketdetail();
+            $newBasketContent->setProduct($product);
+            $newBasketContent->setBasket($basket);
+            $newBasketContent->setQuantity(1);
+            DAO::save($newBasketContent);
+        }
+        $this->store();
+    }
+
+    #[Route("basket/addTo/panierSpecifique/{idP}",name: "addProductTo")]
+    public function addProductTo($idP){
+        $product = DAO::getById(Product::class, $idP, false);
+        $idDuPanier = URequest::post("id");
+        $basket = DAO::getById(Basket::class, $idDuPanier, false);
+
+        $basketContent=DAO::getOne(Basketdetail::class,'idProduct= ? AND idBasket= ?', false, [$idP,$idDuPanier]);
+        if($basketContent!==null){//Le produit est présent dans le panier
+            $quantity = $basketContent->getQuantity();
+            $basketContent->setQuantity($quantity+1);
+            DAO::save($basketContent);
+        }
+        else{
+            $newBasketContent = new Basketdetail();
+            $newBasketContent->setProduct($product);
+            $newBasketContent->setBasket($basket);
+            $newBasketContent->setQuantity(1);
+            DAO::save($newBasketContent);
+        }
+        $this->store();
     }
 
     #[Route ('section/{id}', name:'section')]
@@ -85,7 +120,7 @@ class MainController extends ControllerBase{
         $listProductBySection = DAO::getAll(Product::class, 'idSection= '.$id, [USession::get("idSection")]);
         $listSection = DAO::getAll(Section::class, false, ['products']);
         $actualSection = DAO::getById(Section::class, $id, false);
-        $this->loadDefaultView(['listSection'=>$listSection, 'listProductBySection'=>$listProductBySection, 'actualSection'=>$actualSection]);
+        $this->loadView('MainController/section.html',['listSection'=>$listSection, 'listProductBySection'=>$listProductBySection, 'actualSection'=>$actualSection]);
     }
 
     #[Route ('product/{idS}/{idP}', name:'productUnit')]
@@ -93,6 +128,7 @@ class MainController extends ControllerBase{
         $actualSection = DAO::getById(Section::class, $idS, false);
         $actualProduct = DAO::getById(Product::class,$idP,['sections']);
         $listSection = DAO::getAll(Section::class, false, ['products']);
+        $basket = DAO::getAll(Basket::class, 'idUser= ?', false, [USession::get("idUser")]);
         $productsInSession = USession::get("productsInSession");
         if($productsInSession == null || count($productsInSession) == 0){
             $productsInSession[] = "val temporaire";
@@ -102,7 +138,7 @@ class MainController extends ControllerBase{
         else
             \array_unshift($productsInSession, $actualProduct);
         USession::set('productsInSession', \array_slice($productsInSession,0,5));
-        $this->loadDefaultView(['listSection'=>$listSection, 'actualSection'=>$actualSection, 'actualProduct'=>$actualProduct]);
+        $this->loadView('MainController/product.html',['listSection'=>$listSection, 'actualSection'=>$actualSection, 'actualProduct'=>$actualProduct, 'basket'=>$basket]);
     }
 
     protected function getAuthController(): AuthController

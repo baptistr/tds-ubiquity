@@ -52,27 +52,18 @@ class MyAuth extends \Ubiquity\controllers\auth\AuthController{
                 $user = DAO::getOne(User::class, 'email= ?', false, [$email]);
                 if (isset($user) && $user->getPassword() == $password) {
                     USession::set('idUser', $user->getId());
-                    $basket = DAO::getOne(Basket::class, 'name = ?', false, ['_default']);
+                    $basket = DAO::getOne(Basket::class, 'name = ?', false, ['defaultBasket']);
                     if (!$basket) {
                         $basket = new Basket();
-                        $basket->setName('_default');
+                        $basket->setName('defaultBasket');
                         $basket->setUser($user);
-                        if (DAO::save($basket)) {
-                            $LocalBasket = new BasketFunction(DAO::getOne(Basket::class, 'name = ?', false, ['_default']));
-                            USession::set('defaultBasket', $LocalBasket);
-                            return $user;
-                        } else {
-                            echo "BDD erreur user";
-                        }
-                    } else {
-                        $LocalBasket = new BasketFunction($basket);
-                        USession::set('defaultBasket', $LocalBasket);
-                        return $user;
+                        DAO::save($basket);
                     }
+                    USession::set('defaultBasket', $basket);
                 }
             }
         }
-        return;
+        return $user;
     }
 
 

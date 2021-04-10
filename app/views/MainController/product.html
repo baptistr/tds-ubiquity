@@ -21,9 +21,28 @@
                     <h2>{{actualProduct.name}}</h2>
                     {{actualProduct.price}}
                     <span>({{actualProduct.promotion}})</span>
-
-                    <a href='{{ path('addProcuct', [actualProduct.id]) }}'><i class="large shopping cart icon float-r button"></i></a>
-                    <i class="big shopping basket icon float-r "></i>
+                    <fieldset>
+                        <legend>Où mettre le produit ?</legend>
+                        <div class="ui grid">
+                            <div class="sixteen wide column">
+                                <a class="ui button" href='{{ path('addProduct', [actualProduct.id]) }}'>Ajouter le produit dans le panier par défaut</a>
+                            </div>
+                            <div class="sixteen wide column">
+                               <strong>OU</strong>
+                            </div>
+                            <div class="sixteen wide column">
+                                <form class="ui form" action='{{ path('addProductTo', [actualProduct.id]) }}' method="post">
+                                    <select name="id">
+                                        <option value="">--Dérouler pour choisir le panier--</option>
+                                        {% for basket in basket %}
+                                        <option value="{{ basket.id }}">{{ basket.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button class="ui button" type="submit">Ajouter le produit dans le panier sélectionné</button>
+                                </form>
+                            </div>
+                        </div>
+                    </fieldset>
                 </div>
             </div>
             <a href="{{path('section', [actualSection.id])}}" class="ui blue button retour-section">Retour à {{actualSection.name}}</a>
