@@ -1,10 +1,10 @@
-<div class="ui container">
-    <fieldset>
-        <legend>Liste de mes paniers</legend>
-        <ul>
-            {% for basket in basket %}
-            <li>{{ basket.name }}</li>
-            {% endfor %}
-        </ul>
-    </fieldset>
+<div class="ui grid">
+    <div class="ui vertical menu four wide column">
+        {% for baskets in baskets %}
+        <a class="item" href="{{path('basketContent', [baskets.id])}}">
+            {{ baskets.name }}
+            <div class="ui label teal left pointing label">({{ baskets.basketdetails|length }})</div>
+        </a>
+        {% endfor %}
+    </div>
 </div>

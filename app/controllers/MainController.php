@@ -6,7 +6,6 @@ namespace controllers;
  use models\Basketdetail;
  use models\Order;
  use models\Section;
- use models\User;
  use Ubiquity\attributes\items\router\Route;
  use Ubiquity\controllers\auth\AuthController;
  use Ubiquity\controllers\auth\WithAuthTrait;
@@ -68,8 +67,22 @@ class MainController extends ControllerBase{
 
     #[Route('basket', name:'basket')]
     public function basket(){
-        $basket = DAO::getAll(Basket::class, 'idUser= ?', false, [USession::get("idUser")]);
-        $this->loadView('MainController/basket.html',['basket'=>$basket]);
+        $baskets = DAO::getAll(Basket::class, 'idUser= ?', ['basketdetails'], [USession::get("idUser")]);
+        $this->loadView('MainController/basket.html',['baskets'=>$baskets]);
+    }
+
+    #[Route('basketContent/{idBasket}', name:'basketContent')]
+    public function basketContent($idBasket){
+        $baskets = DAO::getAll(Basket::class, 'idUser= ?', ['basketdetails.product'], [USession::get("idUser")]);
+        $basketDetails = DAO::getAll(Basketdetail::class, 'idBasket= '.$idBasket,['product']);
+        $this->loadView('MainController/basketContent.html',['baskets'=>$baskets, 'basketDetails'=>$basketDetails]);
+    }
+
+    #[Route("basketDeleteProduct/{idB}/{idP}",name: "basketDeleteProduct")]
+    public function basketDeleteProduct($idB,$idP){
+        $remove = DAO::getOne(Basketdetail::class,'idBasket = ? AND idProduct = ?',false,[$idB, $idP]);
+        DAO::remove($remove);
+        $this->basket();
     }
 
     #[Route("basket/add/{idP}", name:"addProduct")]

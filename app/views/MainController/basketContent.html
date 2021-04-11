@@ -1,0 +1,37 @@
+<div class="ui grid">
+    <div class="ui vertical menu four wide column">
+        {% for baskets in baskets %}
+        <a class="item" href="{{path('basketContent', [baskets.id])}}">
+            {{ baskets.name }}
+            <div class="ui label teal left pointing label">({{ baskets.basketdetails|length }})</div>
+        </a>
+        {% endfor %}
+    </div>
+    <div class="twelve wide column">
+        <a href="{{ path('home') }}" class="ui black button float-r">Retour (board)</a>
+        <h1>{{ baskets.name }}</h1>
+        <fieldset class="ui grid">
+            <legend>Produits dans le panier</legend>
+            <table class="ui celled table">
+                <thead>
+                <tr><th>Produit</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Montant</th>
+                    <th>{{basketDetails.basket.id}}</th>
+                </tr></thead>
+                <tbody>
+                {% for basketDetails in basketDetails %}
+                <tr>
+                    <td data-label="Prodiut">{{basketDetails.product.name}}</td>
+                    <td data-label="Prix">{{basketDetails.product.price}}</td>
+                    <td data-label="Quantité">{{basketDetails.quantity}}</td>
+                    <td data-label="Montant">{{basketDetails.product.price * basketDetails.quantity}}</td>
+                    <td><a href="{{ path('basketDeleteProduct', [basketDetails.idBasket, basketDetails.idProduct]) }}"><i class="times circle icon"></i></a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</div>
