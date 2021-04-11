@@ -85,6 +85,24 @@ class MainController extends ControllerBase{
         $this->basket();
     }
 
+    #[Route("basketUpQuantity/{idB}/{idP}",name: "basketUpQuantity")]
+    public function basketUpQuantity($idB,$idP){
+        $basketDetail = DAO::getOne(Basketdetail::class,'idBasket = ? AND idProduct = ?',false,[$idB, $idP]);
+        $quantity = $basketDetail->getQuantity();
+        $basketDetail->setQuantity($quantity+1);
+        DAO::save($basketDetail);
+        $this->basket();
+    }
+
+    #[Route("basketDownQuantity/{idB}/{idP}",name: "basketDownQuantity")]
+    public function basketDownQuantity($idB,$idP){
+        $basketDetail = DAO::getOne(Basketdetail::class,'idBasket = ? AND idProduct = ?',false,[$idB, $idP]);
+        $quantity = $basketDetail->getQuantity();
+        $basketDetail->setQuantity($quantity-1);
+        DAO::save($basketDetail);
+        $this->basket();
+    }
+
     #[Route("basket/add/{idP}", name:"addProduct")]
     public function addProduct($idP){
         $product = DAO::getById(Product::class, $idP, false);

@@ -25,7 +25,15 @@
                 <tr>
                     <td data-label="Prodiut">{{basketDetails.product.name}}</td>
                     <td data-label="Prix">{{basketDetails.product.price}}</td>
-                    <td data-label="Quantité">{{basketDetails.quantity}}</td>
+                    <td data-label="Quantité">
+                        {{basketDetails.quantity}}
+                        <a href="{{ path('basketUpQuantity', [basketDetails.idBasket, basketDetails.idProduct]) }}">
+                            <i class="arrow alternate circle up outline icon"></i>
+                        </a>
+                        <a href="{{ path('basketDownQuantity', [basketDetails.idBasket, basketDetails.idProduct]) }}">
+                            <i class="arrow alternate circle down outline icon"></i>
+                        </a>
+                    </td>
                     <td data-label="Montant">{{basketDetails.product.price * basketDetails.quantity}}</td>
                     <td><a href="{{ path('basketDeleteProduct', [basketDetails.idBasket, basketDetails.idProduct]) }}"><i class="times circle icon"></i></a></td>
                 </tr>
