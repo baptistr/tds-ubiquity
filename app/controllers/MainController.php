@@ -179,7 +179,8 @@ class MainController extends ControllerBase{
         $listProductBySection = DAO::getAll(Product::class, 'idSection= '.$id, [USession::get("idSection")]);
         $listSection = DAO::getAll(Section::class, false, ['products']);
         $actualSection = DAO::getById(Section::class, $id, false);
-        $this->loadView('MainController/section.html',['listSection'=>$listSection, 'listProductBySection'=>$listProductBySection, 'actualSection'=>$actualSection]);
+        $basket = DAO::getAll(Basket::class, 'idUser= ?', false, [USession::get("idUser")]);
+        $this->loadView('MainController/section.html',['listSection'=>$listSection, 'listProductBySection'=>$listProductBySection, 'actualSection'=>$actualSection, 'basket'=>$basket]);
     }
 
     #[Route ('product/{idS}/{idP}', name:'productUnit')]

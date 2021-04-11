@@ -12,7 +12,7 @@
                 <legend>Promotions en cours</legend>
                 {% for product in productPromo %}
                 <ul>
-                    <li><a href="{{ path('productUnit', [product.section, product.id]) }}"><img width="75" src="https://file1.science-et-vie.com/var/scienceetvie/storage/images/1/0/6/106515/les-premiers-oeufs-sexes-arrivent-magasin.jpg?alias=exact1024x768_l"></a></li>
+                    <li><a href="{{ path('productUnit', [product.section, product.id]) }}"><img width="75" src="public/assets/img/{{product.image}}.jpg"></a></li>
                     <li>{{ product.name }}</li>
                     <li>{{ product.price }} <span>({{product.promotion}})</span></li>
                 </ul>
@@ -22,7 +22,7 @@
                 <legend>Consultés récemment</legend>
                 {% for prod in productsInSession %}
                 <ul>
-                    <li><a href="{{ path('productUnit', [prod.section, prod.id]) }}"><img width="75" src="https://file1.science-et-vie.com/var/scienceetvie/storage/images/1/0/6/106515/les-premiers-oeufs-sexes-arrivent-magasin.jpg?alias=exact1024x768_l"></a></li>
+                    <li><a href="{{ path('productUnit', [prod.section, prod.id]) }}"><img width="75" src="public/assets/img/{{prod.image}}.jpg"></a></li>
                     <li>{{ prod.name }}</li>
                     <li>{{ prod.price }} <span>({{prod.promotion}})</span></li>
                 </ul>
