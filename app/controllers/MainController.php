@@ -98,8 +98,12 @@ class MainController extends ControllerBase{
     public function basketDownQuantity($idB,$idP){
         $basketDetail = DAO::getOne(Basketdetail::class,'idBasket = ? AND idProduct = ?',false,[$idB, $idP]);
         $quantity = $basketDetail->getQuantity();
-        $basketDetail->setQuantity($quantity-1);
-        DAO::save($basketDetail);
+        if($quantity == 1)
+            DAO::remove($basketDetail);
+        else{
+            $basketDetail->setQuantity($quantity-1);
+            DAO::save($basketDetail);
+        }
         $this->basket();
     }
 
