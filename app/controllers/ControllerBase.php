@@ -25,7 +25,7 @@ abstract class ControllerBase extends Controller {
         $basket = DAO::getById(Basket::class, $idDuPanier, ['basketdetails.product']);
         $basketDetail = $basket->getBasketdetails();
         foreach ($basketDetail as $content) {
-            $montant += $content->getProduct()->getPrice() * $content->getQuantity();
+            $montant += (($content->getProduct()->getPrice()+$content->getProduct()->getPromotion()) * $content->getQuantity());
         }
         foreach ($basketDetail as $content) {
             $nbProduct += $content->getQuantity();

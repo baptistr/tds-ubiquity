@@ -123,7 +123,7 @@ class MainController extends ControllerBase{
         $basket = DAO::getById(Basket::class, $idB, ['basketdetails.product']);
         $basketDetail = $basket->getBasketdetails();
         foreach ($basketDetail as $content) {
-            $montant += $content->getProduct()->getPrice() * $content->getQuantity();
+            $montant += (($content->getProduct()->getPrice()+$content->getProduct()->getPromotion()) * $content->getQuantity());
         }
         foreach ($basketDetail as $content) {
             $nbProduct += $content->getQuantity();
