@@ -65,7 +65,7 @@ class Section{
 	}
 
 	 public function __toString(){
-		return $this->name??'indéfini';
+		return ($this->name??'no value').'';
 	}
 
 }

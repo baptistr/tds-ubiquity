@@ -159,7 +159,7 @@ class Order{
 	}
 
 	 public function __toString(){
-		return $this->id??'indéfini';
+		return ($this->missingNumber??'no value').'';
 	}
 
 }

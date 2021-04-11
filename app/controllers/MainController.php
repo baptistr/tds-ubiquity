@@ -60,7 +60,7 @@ class MainController extends ControllerBase{
             /*$newBasket->setId(1001);*/ //pas besoin car se créer automatiquement
             /*$newBasket->setDateCreation(date("Y-m-d H:i:s"));*/ //pas besoin car il prend la date par default de la db
             DAO::save($newBasket);
-            UResponse::header('location', '/'.Router::path('basket'));
+            $this->basket();
         }
         $this->loadView('MainController/newBasket.html',['basket'=>$basket]);
     }
@@ -75,13 +75,24 @@ class MainController extends ControllerBase{
     public function basketContent($idBasket){
         $baskets = DAO::getAll(Basket::class, 'idUser= ?', ['basketdetails.product'], [USession::get("idUser")]);
         $basketDetails = DAO::getAll(Basketdetail::class, 'idBasket= '.$idBasket,['product']);
-        $this->loadView('MainController/basketContent.html',['baskets'=>$baskets, 'basketDetails'=>$basketDetails]);
+        $actualBasket = DAO::getById(Basket::class,$idBasket,false);
+        $this->loadView('MainController/basketContent.html',['baskets'=>$baskets, 'basketDetails'=>$basketDetails, 'actualBasket'=>$actualBasket]);
     }
 
     #[Route("basketDeleteProduct/{idB}/{idP}",name: "basketDeleteProduct")]
     public function basketDeleteProduct($idB,$idP){
         $remove = DAO::getOne(Basketdetail::class,'idBasket = ? AND idProduct = ?',false,[$idB, $idP]);
         DAO::remove($remove);
+        $this->basket();
+    }
+
+    #[Route("basketDeleteAllProduct/{idB}",name: "basketDeleteAllProduct")]
+    public function basketDeleteAllProduct($idB){
+        $basket = DAO::getById(Basket::class, $idB, ['basketdetails.product']);
+        $basketDetail = $basket->getBasketdetails();
+        foreach ($basketDetail as $content) {
+            DAO::remove($content->getProduct());
+        }
         $this->basket();
     }
 
@@ -105,6 +116,21 @@ class MainController extends ControllerBase{
             DAO::save($basketDetail);
         }
         $this->basket();
+    }
+
+    #[Route("basket/validate/{idB}",name: "basketValidate")]
+    public function basketValidate($idB){
+        $montant = 0;
+        $nbProduct = 0;
+        $basket = DAO::getById(Basket::class, $idB, ['basketdetails.product']);
+        $basketDetail = $basket->getBasketdetails();
+        foreach ($basketDetail as $content) {
+            $montant += $content->getProduct()->getPrice() * $content->getQuantity();
+        }
+        foreach ($basketDetail as $content) {
+            $nbProduct += $content->getQuantity();
+        }
+        $this->loadView('MainController/basketValidate.html',['montant'=>$montant, 'nbProduct'=>$nbProduct]);
     }
 
     #[Route("basket/add/{idP}", name:"addProduct")]

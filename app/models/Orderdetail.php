@@ -91,7 +91,7 @@ class Orderdetail{
 	}
 
 	 public function __toString(){
-		return $this->quantity.' '.$this->status??'indéfini';
+		return ($this->prepared??'no value').'';
 	}
 
 }

@@ -39,7 +39,7 @@ fieldset{
 	border:1px solid grey;
 }
 .float-r{
-	float: right;
+	float: right!important;
 }
 .icon{
 	cursor: pointer;

@@ -98,7 +98,7 @@ class User{
 	}
 
 	 public function __toString(){
-		return $this->name??'indéfini';
+		return ($this->email??'no value').'';
 	}
 
 }

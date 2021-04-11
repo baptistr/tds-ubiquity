@@ -8,7 +8,7 @@
         {% endfor %}
     </div>
     <div class="twelve wide column">
-        <a href="{{ path('home') }}" class="ui black button float-r">Retour (board)</a>
+        <a href="{{ path('basket') }}" class="ui black button float-r">Liste Panier</a>
         <h1>{{ baskets.name }}</h1>
         <fieldset class="ui grid">
             <legend>Produits dans le panier</legend>
@@ -23,7 +23,7 @@
                 <tbody>
                 {% for basketDetails in basketDetails %}
                 <tr>
-                    <td data-label="Prodiut">{{basketDetails.product.name}}</td>
+                    <td data-label="Produit"><a href="{{ path('productUnit', [basketDetails.product.section, basketDetails.product.id]) }}">{{basketDetails.product.name}}</a></td>
                     <td data-label="Prix">{{basketDetails.product.price}}</td>
                     <td data-label="Quantité">
                         {{basketDetails.quantity}}
@@ -34,12 +34,15 @@
                             <i class="arrow alternate circle down outline icon"></i>
                         </a>
                     </td>
-                    <td data-label="Montant">{{basketDetails.product.price * basketDetails.quantity}}</td>
+                    <td data-label="Montant">{{(basketDetails.product.price+basketDetails.product.promotion) * basketDetails.quantity}} (<span>{{basketDetails.product.promotion * basketDetails.quantity}}</span>)</td>
                     <td><a href="{{ path('basketDeleteProduct', [basketDetails.idBasket, basketDetails.idProduct]) }}"><i class="times circle icon"></i></a></td>
                 </tr>
                 {% endfor %}
                 </tbody>
             </table>
+            {{baskets.id}}
+            <a class="ui button red" href="{{ path('basketDeleteAllProduct', [actualBasket.id]) }}">Vider le panier</a>
+            <a class="ui button green" href="{{ path('basketValidate', [actualBasket.id]) }}">Etape suivante</a>
         </fieldset>
     </div>
 </div>
