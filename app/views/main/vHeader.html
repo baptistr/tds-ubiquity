@@ -17,9 +17,14 @@
 <nav>
 	<div class="ui basic inverted segment">
 		<div class="ui container">
-			<div class="ui inverted secondary menu">
-				<a href="{{ path('home') }}" class="item">Home</a>
-				<div class="item">{{ _userInfo|raw }}</div>
+			<div class="ui grid">
+				<div class="ui inverted secondary menu">
+					<a href="{{ path('home') }}" class="item">Home</a>
+					<div class="item">{{ _userInfo|raw }}</div>
+					<div class="item">
+						<a class="green ui button" href="{{ path('basketContent', [idDuPanier]) }}" >{{nbProduct}} <i class="shopping basket icon"></i>   panier {{montant}}€</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

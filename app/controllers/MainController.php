@@ -10,10 +10,8 @@ namespace controllers;
  use Ubiquity\controllers\auth\AuthController;
  use Ubiquity\controllers\auth\WithAuthTrait;
  use models\Product;
- use Ubiquity\controllers\Router;
  use Ubiquity\orm\DAO;
  use Ubiquity\utils\http\URequest;
- use Ubiquity\utils\http\UResponse;
  use Ubiquity\utils\http\USession;
 
  /**
